@@ -45,57 +45,11 @@ export default defineConfig(({ mode }) => {
     rollupOptions: {
       output: {
         // More granular code splitting for better caching
-        manualChunks: (id) => {
-          if (id.includes('node_modules/')) {
-            // Core React libraries
-            if (id.includes('node_modules/react/') ||
-                id.includes('node_modules/react-dom/') ||
-                id.includes('node_modules/react-router') ||
-                id.includes('node_modules/scheduler/') ||
-                id.includes('node_modules/use-sync-external-store/') ||
-                id.includes('node_modules/@babel/') ||
-                id.includes('node_modules/regenerator-runtime/') ||
-                id.includes('node_modules/tiny-warning/') ||
-                id.includes('node_modules/loose-envify/')) {
-              return 'react-core';
-            }
-            // Redux state management
-            if (id.includes('node_modules/@reduxjs/') || id.includes('node_modules/react-redux')) {
-              return 'redux';
-            }
-            // UI libraries
-            if (id.includes('node_modules/framer-motion') || 
-                id.includes('node_modules/react-icons') || 
-                id.includes('node_modules/react-toastify') ||
-                id.includes('node_modules/@mui/') ||
-                id.includes('node_modules/@emotion/')) {
-              return 'ui-libs';
-            }
-            // Utilities
-            if (id.includes('node_modules/axios') || id.includes('node_modules/socket.io')) {
-              return 'network';
-            }
-            // Fabric.js
-            if (id.includes('node_modules/fabric')) {
-              return 'fabric';
-            }
-            
-            // Group smaller packages together (excluding React-related packages)
-            if (id.includes('node_modules/@babel/') ||
-                id.includes('node_modules/regenerator-runtime/')) {
-              return 'shared-vendor';
-            }
-            
-            // Create vendor chunks by package for remaining dependencies
-            const match = id.match(/node_modules\/([^\/]+)/);
-            if (match) {
-              const packageName = match[1];
-              if (packageName !== '.vite') {
-                return `vendor-${packageName.replace('@', '').replace('/', '-')}`;
-              }
-            }
-          }
-          return undefined;
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', '@reduxjs/toolkit', 'react-redux'],
+          ui: ['framer-motion', 'react-icons', 'react-toastify', '@mui/material', '@emotion/react', '@emotion/styled'],
+          utils: ['axios', 'socket.io-client'],
+          fabric: ['fabric']
         },
         // Optimize asset filenames for caching
         assetFileNames: (assetInfo) => {
