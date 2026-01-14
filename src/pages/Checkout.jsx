@@ -107,12 +107,7 @@ export default function Checkout() {
     }
 
     // Guest checkout allowed - no login required
-    // if (!user) {
-    //   toast.error('Please log in to place an order');
-    //   const redirectUrl = encodeURIComponent(window.location.pathname + window.location.search);
-    //   navigate('/register?' + new URLSearchParams({ redirectUrl }).toString());
-    //   return;
-    // }
+    // This code is intentionally commented out to allow guest checkout
 
     if (!validate()) return toast.error('Please fix shipping errors');
 
@@ -252,11 +247,11 @@ export default function Checkout() {
           handler: async function (response) {
             try {
               // Use new payment verification endpoint for robust validation
-              await paymentAPI.verifyPayment({
+              await orderAPI.verifyPayment({
                 orderId: order._id || order.id,
-                razorpayOrderId: razorpayOrderId,
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpaySignature: response.razorpay_signature,
+                razorpay_order_id: razorpayOrderId,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
               });
               dispatch(clearCart());
               toast.success('Payment successful');
@@ -523,8 +518,8 @@ export default function Checkout() {
                   <span className="flex-1 text-sm sm:text-base">Pay Online (Razorpay)</span>
                   <span className="text-xs text-gray-500 hidden sm:inline">Cards, UPI, Wallets</span>
                 </label>
-                {/* <label   className="flex items-center gap-2 cursor-pointer p-2 sm:p-3 border rounded-lg hover:bg-gray-50 transition">
-                  <input type="radio" name="pm"  checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="flex-shrink-0" />
+                {/* <label className="flex items-center gap-2 cursor-pointer p-2 sm:p-3 border rounded-lg hover:bg-gray-50 transition">
+                  <input type="radio" name="pm" checked={paymentMethod === 'cod'} onChange={() => setPaymentMethod('cod')} className="flex-shrink-0" />
                   <span className="flex-1 text-sm sm:text-base">Cash on Delivery</span>
                   <span className="text-xs text-gray-500 hidden sm:inline">Pay when delivered</span>
                 </label> */}

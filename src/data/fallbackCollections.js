@@ -8,7 +8,7 @@ const FOUR = "https://res.cloudinary.com/dwmytphop/image/upload/v1766311083/FOUR
 const FIVE = "https://res.cloudinary.com/dwmytphop/image/upload/v1766311083/FIVE_g4ndly.png";
 const SIX = "https://res.cloudinary.com/dwmytphop/image/upload/v1766311083/SIX_hhibvm.png";
 const SEVEN = "https://res.cloudinary.com/dwmytphop/image/upload/v1766311084/SEVEN_g0ijic.png";
-const EIGHT = "https://res.cloudinary.com/dwmytphop/image/upload/v1766311084/EIGHT_dh2lqt.png";
+const EIGHT = "https://res.cloudinary.com/dwmytphop/image/upload/v1768041552/football_1_1_ytbqal.png";
 
 
 const slugify = (value = '') => value

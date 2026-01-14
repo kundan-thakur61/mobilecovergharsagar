@@ -125,18 +125,22 @@ export const getAvailableVariants = (product) => {
 
 // Get product image
 export const getProductImage = (product) => {
-  // If the product stores a custom design, prefer its screen image as the product thumbnail
-  if (product && product.design && product.design.imgSrc) {
-    return resolveImageUrl(product.design.imgSrc);
-  }
-  if (product.variants && product.variants.length > 0) {
-    const variant = product.variants[0];
-    if (variant.images && variant.images.length > 0) {
-      const primaryImage = variant.images.find(img => img.isPrimary);
-      const pickUrl = (img) => img && (img.url || img.secure_url || img.path || img.publicUrl || img.secureUrl || img.publicUrl || '');
-      const resolved = primaryImage ? pickUrl(primaryImage) : pickUrl(variant.images[0]);
-      if (resolved) return resolveImageUrl(resolved);
+  try {
+    // If the product stores a custom design, prefer its screen image as the product thumbnail
+    if (product && product.design && product.design.imgSrc) {
+      return resolveImageUrl(product.design.imgSrc);
     }
+    if (product.variants && product.variants.length > 0) {
+      const variant = product.variants[0];
+      if (variant.images && variant.images.length > 0) {
+        const primaryImage = variant.images.find(img => img.isPrimary);
+        const pickUrl = (img) => img && (img.url || img.secure_url || img.path || img.publicUrl || img.secureUrl || img.publicUrl || '');
+        const resolved = primaryImage ? pickUrl(primaryImage) : pickUrl(variant.images[0]);
+        if (resolved) return resolveImageUrl(resolved);
+      }
+    }
+  } catch (error) {
+    console.warn('Error getting product image:', error);
   }
   // Use Vite base URL so public assets work when app is served from a subpath
   const base = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL ? import.meta.env.BASE_URL : '/';
@@ -210,10 +214,15 @@ const normalizeAssetPath = (raw) => {
 // Resolve image object or string to a usable URL while supporting backend-served uploads
 export const resolveImageUrl = (image) => {
   if (!image) return '';
-  const candidate = typeof image === 'string'
-    ? image
-    : image.url || image.secure_url || image.path || image.publicUrl || image.secureUrl || '';
-  return normalizeAssetPath(candidate);
+  try {
+    const candidate = typeof image === 'string'
+      ? image
+      : image.url || image.secure_url || image.path || image.publicUrl || image.secureUrl || '';
+    return normalizeAssetPath(candidate);
+  } catch (error) {
+    console.warn('Error resolving image URL:', error);
+    return '';
+  }
 };
 
 // Scroll to top

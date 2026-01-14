@@ -256,7 +256,7 @@ const OrderSuccess = () => {
                 )}
                 
                 {/* Fallback for orders without shipment */}
-                {!order.deliveryOne?.waybill && (
+                {!order.shiprocket?.waybill && (
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">

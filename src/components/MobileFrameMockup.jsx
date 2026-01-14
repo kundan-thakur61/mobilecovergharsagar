@@ -217,8 +217,8 @@ const MobileFrameMockup = ({ selectedModel, onDesignComplete }) => {
             ref={canvasRef}
             className="relative bg-gray-100 border-2 border-gray-300 cursor-move select-none"
             style={{ 
-              width: selectedModel.images && selectedModel.images.length > 0 ? 'auto' : '300px',
-              height: selectedModel.images && selectedModel.images.length > 0 ? 'auto' : '600px',
+              width: selectedModel.images && selectedModel.images.length > 0 ? '100%' : '300px',
+              height: selectedModel.images && selectedModel.images.length > 0 ? '100%' : '600px',
               maxWidth: '100%',
               maxHeight: '70vh'
             }}

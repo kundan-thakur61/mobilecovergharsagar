@@ -281,6 +281,7 @@ export default function AdminShipments() {
                   {/* Shiprocket Management */}
                   {order.payment?.status === 'paid' && (
                     <AdminShiprocketManagement
+                      key={order._id}
                       orderId={order._id}
                       orderType="regular"
                       order={order}

@@ -342,16 +342,16 @@ export default function AdminShiprocketManagement({ orderId, orderType = 'regula
       <div className="mt-4 p-3 sm:p-4 bg-gray-50 rounded-lg text-xs sm:text-sm text-gray-600">
         <p className="font-semibold mb-2">Workflow:</p>
         <ol className="list-decimal list-inside space-y-1">
-          <li className={shipmentData?.shipmentId ? 'line-through text-green-600' : ''}>
-            Create Shipment in DeliveryOne
+          <li key="create-shipment" className={shipmentData?.shipmentId ? 'line-through text-green-600' : ''}>
+            Create Shipment in Shiprocket
           </li>
-          <li className={!shipmentData?.shipmentId ? 'text-gray-400' : shipmentData?.awbCode ? 'line-through text-green-600' : ''}>
+          <li key="assign-courier" className={!shipmentData?.shipmentId ? 'text-gray-400' : shipmentData?.awbCode ? 'line-through text-green-600' : ''}>
             Auto-assign cheapest courier OR select manually
           </li>
-          <li className={!shipmentData?.shipmentId ? 'text-gray-400' : ''}>
+          <li key="generate-label" className={!shipmentData?.shipmentId ? 'text-gray-400' : ''}>
             Generate shipping label (optional)
           </li>
-          <li className={!shipmentData?.shipmentId ? 'text-gray-400' : ''}>
+          <li key="request-pickup" className={!shipmentData?.shipmentId ? 'text-gray-400' : ''}>
             Request pickup from courier
           </li>
         </ol>

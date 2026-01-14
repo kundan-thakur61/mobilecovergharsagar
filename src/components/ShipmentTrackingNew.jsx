@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiPackage, FiTruck, FiMapPin, FiCheckCircle, FiClock, FiAlertCircle } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { trackShipment } from '../api/shiprocket';
 
 const ShipmentTracking = ({ orderId, waybill, className = '' }) => {
   const [trackingData, setTrackingData] = useState(null);
@@ -8,23 +9,16 @@ const ShipmentTracking = ({ orderId, waybill, className = '' }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!waybill) return;
+    if (!orderId) return;
 
     const fetchTrackingData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
-        // Call your backend tracking API
-        const response = await fetch(`/api/deliveryone/track/${waybill}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
 
-        const data = await response.json();
-        
+        // Call Shiprocket tracking API
+        const data = await trackShipment(orderId, 'regular');
+
         if (data.success) {
           setTrackingData(data.data);
         } else {
@@ -40,7 +34,7 @@ const ShipmentTracking = ({ orderId, waybill, className = '' }) => {
     };
 
     fetchTrackingData();
-  }, [waybill]);
+  }, [orderId]);
 
   const getStatusIcon = (status) => {
     switch (status?.toLowerCase()) {
@@ -177,16 +171,16 @@ const ShipmentTracking = ({ orderId, waybill, className = '' }) => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors"
                 >
-                  Track on Delhivery Website
+                  Track on Shiprocket Website
                 </a>
               </div>
             )}
           </div>
         )}
 
-        {/* Delhivery Branding */}
+        {/* Shiprocket Branding */}
         <div className="text-center text-xs text-gray-500 mt-6">
-          Powered by Delhivery
+          Powered by Shiprocket
         </div>
       </div>
     </div>
