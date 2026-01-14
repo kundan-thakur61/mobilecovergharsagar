@@ -53,6 +53,8 @@ export default defineConfig(({ mode }) => {
         output: {
          manualChunks: {
   ui: [
+    'react',
+    'react-dom',
     'framer-motion',
     'react-icons',
     'react-toastify',
